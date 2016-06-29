@@ -2,3 +2,4 @@ package: github.com/felipejfc/gluahttpscrape
 import:
 - package: github.com/yuin/gopher-lua
 - package: github.com/yhat/scrape
+- package: github.com/layeh/gopher-luar
