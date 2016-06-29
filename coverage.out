@@ -1,0 +1,16 @@
+mode: count
+github.com/felipejfc/gluahttpscrape/gluahttpscrape.go:14.46,16.2 1 2
+github.com/felipejfc/gluahttpscrape/gluahttpscrape.go:18.54,26.2 3 2
+github.com/felipejfc/gluahttpscrape/gluahttpscrape.go:28.56,29.37 1 2
+github.com/felipejfc/gluahttpscrape/gluahttpscrape.go:32.2,32.16 1 2
+github.com/felipejfc/gluahttpscrape/gluahttpscrape.go:29.37,31.3 1 18
+github.com/felipejfc/gluahttpscrape/gluahttpscrape.go:35.63,40.16 5 1
+github.com/felipejfc/gluahttpscrape/gluahttpscrape.go:45.2,47.33 3 1
+github.com/felipejfc/gluahttpscrape/gluahttpscrape.go:50.2,52.10 3 1
+github.com/felipejfc/gluahttpscrape/gluahttpscrape.go:40.16,44.3 3 0
+github.com/felipejfc/gluahttpscrape/gluahttpscrape.go:47.33,49.3 1 2
+github.com/felipejfc/gluahttpscrape/gluahttpscrape.go:55.63,59.16 4 1
+github.com/felipejfc/gluahttpscrape/gluahttpscrape.go:64.2,66.33 3 1
+github.com/felipejfc/gluahttpscrape/gluahttpscrape.go:69.2,71.10 3 1
+github.com/felipejfc/gluahttpscrape/gluahttpscrape.go:59.16,63.3 3 0
+github.com/felipejfc/gluahttpscrape/gluahttpscrape.go:66.33,68.3 1 2
