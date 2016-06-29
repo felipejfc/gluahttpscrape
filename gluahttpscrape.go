@@ -14,7 +14,7 @@ func NewHttpScrapeModule() *httpScrapeModule {
 
 func (h *httpScrapeModule) Loader(L *lua.LState) int {
 	mod := L.SetFuncs(L.NewTable(), map[string]lua.LGFunction{
-		"findByTag": h.findByTag,
+		"find_by_tag": h.findByTag,
 		//"findByClass": h.findByClass,
 		//"findById":    h.findById,
 	})
