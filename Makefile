@@ -1,13 +1,9 @@
-PACKAGES = $(shell glide novendor)
-
 setup-ci:
+	@go get golang.org/x/tools/cmd/cover
 	@go get github.com/mattn/goveralls
 
 coverage:
-	@echo "mode: count" > coverage-all.out
-	@$(foreach pkg,$(PACKAGES),\
-		go test -coverprofile=coverage.out -covermode=count $(pkg) || exit 1 &&\
-		tail -n +2 coverage.out >> coverage-all.out;)
+	@go test -covermode=count
 
 test:
 	@go test
