@@ -5,8 +5,12 @@ go:
   - 1.5
   - 1.6
 
+install:
+  - make setup-ci
+
 script:
- - go test -v
+  - make coverage
+  - $HOME/gopath/bin/goveralls -coverprofile coverage-all.out -service=travis-ci
 
 notifications:
   email: false
