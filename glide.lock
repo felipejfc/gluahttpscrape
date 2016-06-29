@@ -1,0 +1,12 @@
+hash: 64febf33d4240f9b87290dd4db7319abaa52cbe45d46fae6968dab2a1450036f
+updated: 2016-06-29T14:02:45.754688708-03:00
+imports:
+- name: github.com/yhat/scrape
+  version: 53e4de4d80edac458f4761a5eca90ea9b6272971
+- name: github.com/yuin/gopher-lua
+  version: 47f0f792b296190027f38d577f0860e2dad7a777
+  subpackages:
+  - ast
+  - parse
+  - pm
+devImports: []
