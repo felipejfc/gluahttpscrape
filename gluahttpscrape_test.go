@@ -7,7 +7,7 @@ import (
 	"github.com/yuin/gopher-lua"
 )
 
-var httpBody = `<!DOCTYPE html><html><body><h1 class=\"testclass\" href=\"testhref\">My First Heading</h1><h1 class=\"testclass\" href=\"testhref2\">My First Heading</h1><p>My first paragraph.</p></body></html>`
+var httpBody = `<!DOCTYPE html><html><body><h1 id=\"testid\" class=\"testclass\" href=\"testhref\">My First Heading</h1><h1 id=\"testid\" class=\"testclass\" href=\"testhref2\">My First Heading</h1><p>My first paragraph.</p></body></html>`
 
 func TestFindAttrByClass(t *testing.T) {
 	if err := evalLua(t, `
@@ -24,6 +24,50 @@ func TestFindTextByClass(t *testing.T) {
 	if err := evalLua(t, `
 		local scrape = require("scrape")
 		response, error = scrape.find_text_by_class("`+httpBody+`", "testclass")
+		assert_equal("My First Heading", response[1])
+		assert_equal("My First Heading", response[2])
+	`); err != nil {
+		t.Errorf("Failed to evaluate script: %s", err)
+	}
+}
+
+func TestFindAttrById(t *testing.T) {
+	if err := evalLua(t, `
+		local scrape = require("scrape")
+		response, error = scrape.find_attr_by_id("`+httpBody+`", "href", "testid")
+		assert_equal("testhref", response[1])
+		assert_equal("testhref2", response[2])
+	`); err != nil {
+		t.Errorf("Failed to evaluate script: %s", err)
+	}
+}
+
+func TestFindTextById(t *testing.T) {
+	if err := evalLua(t, `
+		local scrape = require("scrape")
+		response, error = scrape.find_text_by_id("`+httpBody+`", "testid")
+		assert_equal("My First Heading", response[1])
+		assert_equal("My First Heading", response[2])
+	`); err != nil {
+		t.Errorf("Failed to evaluate script: %s", err)
+	}
+}
+
+func TestFindAttrByTag(t *testing.T) {
+	if err := evalLua(t, `
+		local scrape = require("scrape")
+		response, error = scrape.find_attr_by_tag("`+httpBody+`", "href", "h1")
+		assert_equal("testhref", response[1])
+		assert_equal("testhref2", response[2])
+	`); err != nil {
+		t.Errorf("Failed to evaluate script: %s", err)
+	}
+}
+
+func TestFindTextByTag(t *testing.T) {
+	if err := evalLua(t, `
+		local scrape = require("scrape")
+		response, error = scrape.find_text_by_tag("`+httpBody+`", "h1")
 		assert_equal("My First Heading", response[1])
 		assert_equal("My First Heading", response[2])
 	`); err != nil {

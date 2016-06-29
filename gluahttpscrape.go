@@ -7,6 +7,7 @@ import (
 	"github.com/yhat/scrape"
 	"github.com/yuin/gopher-lua"
 	"golang.org/x/net/html"
+	"golang.org/x/net/html/atom"
 )
 
 type httpScrapeModule struct{}
@@ -19,30 +20,39 @@ func (h *httpScrapeModule) Loader(L *lua.LState) int {
 	mod := L.SetFuncs(L.NewTable(), map[string]lua.LGFunction{
 		"find_attr_by_class": h.findAttrByClass,
 		"find_text_by_class": h.findTextByClass,
-		//"findById":    h.findById,
+		"find_attr_by_id":    h.findAttrById,
+		"find_text_by_id":    h.findTextById,
+		"find_attr_by_tag":   h.findAttrByTag,
+		"find_text_by_tag":   h.findTextByTag,
 	})
 	L.Push(mod)
 	return 1
 }
 
 func getMatcher(selector, value string) scrape.Matcher {
-	matcher := func(n *html.Node) bool {
-		return scrape.Attr(n, selector) == value
+	var matcher func(*html.Node) bool
+	if selector == "class" {
+		matcher = scrape.ByClass(value)
+	} else if selector == "id" {
+		matcher = scrape.ById(value)
+	} else if selector == "tag" {
+		matcher = scrape.ByTag(atom.Lookup([]byte(value)))
 	}
 	return matcher
 }
 
-func (h *httpScrapeModule) findAttrByClass(L *lua.LState) int {
+func (h *httpScrapeModule) findAttr(selector string, L *lua.LState) int {
 	body := L.ToString(1)
 	attr := L.ToString(2)
-	class := L.ToString(3)
+	query := L.ToString(3)
+	L.Pop(3)
 	root, err := html.Parse(strings.NewReader(body))
 	if err != nil {
 		L.Push(lua.LNil)
 		L.Push(lua.LString(err.Error()))
 		return 2
 	}
-	results := scrape.FindAll(root, getMatcher("class", class))
+	results := scrape.FindAll(root, getMatcher(selector, query))
 	attrResults := []string{}
 	for _, result := range results {
 		attrResults = append(attrResults, scrape.Attr(result, attr))
@@ -52,16 +62,17 @@ func (h *httpScrapeModule) findAttrByClass(L *lua.LState) int {
 	return 2
 }
 
-func (h *httpScrapeModule) findTextByClass(L *lua.LState) int {
+func (h *httpScrapeModule) findText(selector string, L *lua.LState) int {
 	body := L.ToString(1)
-	class := L.ToString(2)
+	query := L.ToString(2)
+	L.Pop(2)
 	root, err := html.Parse(strings.NewReader(body))
 	if err != nil {
 		L.Push(lua.LNil)
 		L.Push(lua.LString(err.Error()))
 		return 2
 	}
-	results := scrape.FindAll(root, getMatcher("class", class))
+	results := scrape.FindAll(root, getMatcher(selector, query))
 	attrResults := []string{}
 	for _, result := range results {
 		attrResults = append(attrResults, scrape.Text(result))
@@ -69,4 +80,28 @@ func (h *httpScrapeModule) findTextByClass(L *lua.LState) int {
 	L.Push(luar.New(L, attrResults))
 	L.Push(lua.LNil)
 	return 2
+}
+
+func (h *httpScrapeModule) findAttrByClass(L *lua.LState) int {
+	return h.findAttr("class", L)
+}
+
+func (h *httpScrapeModule) findTextByClass(L *lua.LState) int {
+	return h.findText("class", L)
+}
+
+func (h *httpScrapeModule) findAttrById(L *lua.LState) int {
+	return h.findAttr("id", L)
+}
+
+func (h *httpScrapeModule) findTextById(L *lua.LState) int {
+	return h.findText("id", L)
+}
+
+func (h *httpScrapeModule) findAttrByTag(L *lua.LState) int {
+	return h.findAttr("tag", L)
+}
+
+func (h *httpScrapeModule) findTextByTag(L *lua.LState) int {
+	return h.findText("tag", L)
 }
