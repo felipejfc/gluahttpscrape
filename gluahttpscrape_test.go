@@ -20,17 +20,6 @@ func TestFindAttrByClass(t *testing.T) {
 	}
 }
 
-func TestFindTextByClass(t *testing.T) {
-	if err := evalLua(t, `
-		local scrape = require("scrape")
-		response, error = scrape.find_text_by_class("`+httpBody+`", "testclass")
-		assert_equal("My First Heading", response[1])
-		assert_equal("My First Heading", response[2])
-	`); err != nil {
-		t.Errorf("Failed to evaluate script: %s", err)
-	}
-}
-
 func TestFindAttrById(t *testing.T) {
 	if err := evalLua(t, `
 		local scrape = require("scrape")
@@ -42,10 +31,60 @@ func TestFindAttrById(t *testing.T) {
 	}
 }
 
-func TestFindTextById(t *testing.T) {
+func TestFindAttrByTag(t *testing.T) {
 	if err := evalLua(t, `
 		local scrape = require("scrape")
-		response, error = scrape.find_text_by_id("`+httpBody+`", "testid")
+		response, error = scrape.find_attr_by_tag("`+httpBody+`", "href", "h1")
+		assert_equal("testhref", response[1])
+		assert_equal("testhref2", response[2])
+	`); err != nil {
+		t.Errorf("Failed to evaluate script: %s", err)
+	}
+}
+
+func TestFindAttrsByClass(t *testing.T) {
+	if err := evalLua(t, `
+		local scrape = require("scrape")
+		response, error = scrape.find_attrs_by_class("`+httpBody+`", 2, "id", "href", "testclass")
+		assert_equal("testhref", response[1]["href"])
+		assert_equal("testid", response[1]["id"])
+		assert_equal("testid", response[2]["id"])
+		assert_equal("testhref2", response[2]["href"])
+	`); err != nil {
+		t.Errorf("Failed to evaluate script: %s", err)
+	}
+}
+
+func TestFindAttrsById(t *testing.T) {
+	if err := evalLua(t, `
+		local scrape = require("scrape")
+		response, error = scrape.find_attrs_by_id("`+httpBody+`", 2, "id", "href", "testid")
+		assert_equal("testhref", response[1]["href"])
+		assert_equal("testid", response[1]["id"])
+		assert_equal("testid", response[2]["id"])
+		assert_equal("testhref2", response[2]["href"])
+	`); err != nil {
+		t.Errorf("Failed to evaluate script: %s", err)
+	}
+}
+
+func TestFindAttrsByTag(t *testing.T) {
+	if err := evalLua(t, `
+		local scrape = require("scrape")
+		response, error = scrape.find_attrs_by_tag("`+httpBody+`", 2, "id", "href", "h1")
+		assert_equal("testhref", response[1]["href"])
+		assert_equal("testid", response[1]["id"])
+		assert_equal("testid", response[2]["id"])
+		assert_equal("testhref2", response[2]["href"])
+	`); err != nil {
+		t.Errorf("Failed to evaluate script: %s", err)
+	}
+}
+
+func TestFindTextByClass(t *testing.T) {
+	if err := evalLua(t, `
+		local scrape = require("scrape")
+		response, error = scrape.find_text_by_class("`+httpBody+`", "testclass")
 		assert_equal("My First Heading", response[1])
 		assert_equal("My First Heading", response[2])
 	`); err != nil {
@@ -53,12 +92,12 @@ func TestFindTextById(t *testing.T) {
 	}
 }
 
-func TestFindAttrByTag(t *testing.T) {
+func TestFindTextById(t *testing.T) {
 	if err := evalLua(t, `
 		local scrape = require("scrape")
-		response, error = scrape.find_attr_by_tag("`+httpBody+`", "href", "h1")
-		assert_equal("testhref", response[1])
-		assert_equal("testhref2", response[2])
+		response, error = scrape.find_text_by_id("`+httpBody+`", "testid")
+		assert_equal("My First Heading", response[1])
+		assert_equal("My First Heading", response[2])
 	`); err != nil {
 		t.Errorf("Failed to evaluate script: %s", err)
 	}
