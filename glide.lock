@@ -1,19 +1,20 @@
-hash: 14779fc21b5bc287812172aa1067f3425173aa27ce7ebebe7489cc24bd00d0ac
-updated: 2016-06-29T14:56:56.962929222-03:00
+hash: 11efffc0e59e0d59c5964ad6c9c3040017502f7e66b38eb032ce289cf1d46117
+updated: 2017-05-25T23:40:57.906895484+08:00
 imports:
-- name: github.com/layeh/gopher-luar
-  version: 0cfa37e7d7a39213dd0522d49293689742ba4478
 - name: github.com/yhat/scrape
-  version: 53e4de4d80edac458f4761a5eca90ea9b6272971
+  version: 24b7890b0945459dbf91743e4d2ac5d75a51fee2
 - name: github.com/yuin/gopher-lua
-  version: 47f0f792b296190027f38d577f0860e2dad7a777
+  version: b402f3114ec730d8bddb074a6c137309f561aa78
   subpackages:
   - ast
   - parse
   - pm
 - name: golang.org/x/net
-  version: ef2e00e88c5e0a3569f0bb9df697e9cbc6215fea
+  version: 7dcfb8076726a3fdd9353b6b8a1f1b6be6811bd6
   subpackages:
+  - context
   - html
   - html/atom
-devImports: []
+- name: layeh.com/gopher-luar
+  version: 16281577dff29557258daa8ca9bc9b2e05f451f2
+testImports: []
