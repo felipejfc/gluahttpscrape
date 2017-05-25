@@ -3,11 +3,11 @@ package gluahttpscrape
 import (
 	"strings"
 
-	"github.com/layeh/gopher-luar"
 	"github.com/yhat/scrape"
 	"github.com/yuin/gopher-lua"
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/atom"
+	"layeh.com/gopher-luar"
 )
 
 type httpScrapeModule struct{}
